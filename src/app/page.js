@@ -30,14 +30,14 @@ Amplify.configure({
 });
 
 // log the user info when user sign in, for debugging purpose
-const logUserData = (data) => console.log('user data: ',{data})
+//const logUserData = (data) => console.log('user data: ',{data})
 
 export default function Home() {
   return (
     <Authenticator signUpAttributes={["email", "name"]}>
       {({ signOut, user }) => {
-        // Call the listener function with the user data
-        logUserData(user);
+        // Call the listener function with the user data for debugging purposes
+        //logUserData(user);
 
         // Do an authenticated API call to the fragments API server and log the result
         getUserFragments();
