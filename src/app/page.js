@@ -35,11 +35,11 @@ Amplify.configure({
 function userIsAuth() {
   Auth.currentAuthenticatedUser()
     .then((user) => {
-      // console.log( user ); // for debugging purposes
+      // console.log(user); // for debugging purposes
       return true;
     })
     .catch((err) => {
-      console.log(err); // for debugging purposes
+      console.log(err);
       return false;
     });
 }
@@ -53,19 +53,25 @@ export default function Home() {
   };
 
   const handleLogoutClick = (AmplifySignOut) => {
-    // sign out
-    AmplifySignOut();
+    // sign out the user
+    Auth.signOut()
+      .then(() => {
+        console.log("user signed out");
+      })
+      .catch((err) => console.log(err));
+
+    // clear the local storage
+    localStorage.clear();
+
     // set the state
     setIsLoggingClicked(false);
-    // reload the page
-    window.location.reload();
   };
 
   return (
     <>
       {userIsAuth() || isLoggingClicked ? (
         <Authenticator signUpAttributes={["email", "name"]}>
-          {({ signOut, user }) => {
+          {({ user }) => {
             // Do an authenticated API call to the fragments API server and log the result
             getUserFragments();
 
@@ -84,7 +90,7 @@ export default function Home() {
                       type="button"
                       className="bg-red-500 hover:bg-red-700 text-white font-bold 
                           py-2 px-4 my-3 rounded"
-                      onClick={() => handleLogoutClick(signOut)}
+                      onClick={() => handleLogoutClick()}
                     >
                       Sign out
                     </button>
