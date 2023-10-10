@@ -3,7 +3,7 @@
 import { getAuthHeaders } from "./auth";
 
 // fragments microservice API, defaults to localhost:8080
-const apiUrl = process.env.API_URL || "http://localhost:8080";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
 /**
  * Given an authenticated user, request all fragments for this user from the
@@ -26,5 +26,3 @@ export async function getUserFragments() {
     console.error("Unable to call GET /v1/fragment", { err });
   }
 }
-
-

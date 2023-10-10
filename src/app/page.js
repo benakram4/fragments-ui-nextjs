@@ -5,7 +5,12 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { getUserFragments } from "../../utilities/api";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+// import components
+import LoginButton from "../components/LogInButton";
+import LogoutButton from "../components/LogoutButton";
+import UserForm from "@/components/UserForam";
 
 Amplify.configure({
   Auth: {
@@ -33,18 +38,20 @@ Amplify.configure({
 
 // check is user is auth for console debugging purposes
 function userIsAuth() {
+  let isAuth = false;
   Auth.currentAuthenticatedUser()
     .then((user) => {
       // console.log(user); // for debugging purposes
-      return true;
+      isAuth = true;
     })
     .catch((err) => {
       console.log(err);
-      return false;
+      isAuth = false;
     });
+  return isAuth;
 }
 
-export default function Home() {
+export default function Home({ hostUrl }) {
   const [isLoggingClicked, setIsLoggingClicked] = useState(false);
 
   const handleLoginClick = () => {
@@ -67,14 +74,17 @@ export default function Home() {
     setIsLoggingClicked(false);
   };
 
+  // get the host url
+  useEffect(() => {
+    // Do an authenticated API call to the fragments API server and log the result
+    getUserFragments();
+  }, []);
+
   return (
     <>
       {userIsAuth() || isLoggingClicked ? (
         <Authenticator signUpAttributes={["email", "name"]}>
           {({ user }) => {
-            // Do an authenticated API call to the fragments API server and log the result
-            getUserFragments();
-
             return (
               <main>
                 <section className="text-center">
@@ -86,14 +96,8 @@ export default function Home() {
                   </h1>
 
                   <section>
-                    <button
-                      type="button"
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold 
-                          py-2 px-4 my-3 rounded"
-                      onClick={() => handleLogoutClick()}
-                    >
-                      Sign out
-                    </button>
+                    <LogoutButton handleLogoutClick={handleLogoutClick} />
+                    <UserForm hostUrl={hostUrl} />
                   </section>
                 </section>
               </main>
@@ -104,14 +108,7 @@ export default function Home() {
         <>
           <section className="text-center">
             <h1 className="text-4xl font-medium leading-tight">Fragments UI</h1>
-            <button
-              type="button"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold 
-                          py-2 px-4 my-3 rounded"
-              onClick={handleLoginClick}
-            >
-              Log in
-            </button>
+            <LoginButton handleLoginClick={handleLoginClick} />
           </section>
         </>
       )}
