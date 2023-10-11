@@ -5,7 +5,7 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { getUserFragments } from "../../utilities/api";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // import components
 import LoginButton from "../components/LogInButton";
@@ -74,17 +74,13 @@ export default function Home({ hostUrl }) {
     setIsLoggingClicked(false);
   };
 
-  // get the host url
-  useEffect(() => {
-    // Do an authenticated API call to the fragments API server and log the result
-    getUserFragments();
-  }, []);
-
   return (
     <>
       {userIsAuth() || isLoggingClicked ? (
         <Authenticator signUpAttributes={["email", "name"]}>
           {({ user }) => {
+            // call the API to get the latest fragments (if user is logged in)
+            getUserFragments();
             return (
               <main>
                 <section className="text-center">

@@ -7,7 +7,6 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
 function UserForm(props) {
   const [text, setText] = useState("");
-  console.log(props.hostUrl);
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
