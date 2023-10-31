@@ -5,11 +5,27 @@ const RadioValidTypes = [...validTypes]
   .filter(([key, value]) => value === true)
   .map(([key, value]) => key);
 
-
-
 export default function FileSelectorRadio(props) {
-
   const [selectedOption, setSelectedOption] = useState("");
+
+  const onDrop = (event) => {
+    event.preventDefault();
+    const file = event.dataTransfer.files[0];
+    console.log(file);
+    let fileType = file.type;
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+
+    // If the MIME type is empty, check the file extension
+    if (!fileType) {
+      if (fileExtension === "md" || fileExtension === "markdown") {
+        fileType = "text/markdown";
+      }
+    }
+
+    setSelectedOption(fileType);
+    console.log(file);
+    console.log(fileType);
+  }
 
   return (
     <>
@@ -25,16 +41,15 @@ export default function FileSelectorRadio(props) {
         value={selectedOption}
         onChange={(e) => setSelectedOption(e.target.value)}
       >
-        <option>
-          Choose a File Type
-        </option>
+        <option>Choose a File Type</option>
         {RadioValidTypes.map((type) => (
           <option key={type} value={type}>
             {type}
           </option>
         ))}
       </select>
-      {selectedOption.includes("text") && (
+      {(selectedOption.includes("text") ||
+        selectedOption.includes("application/json")) && (
         <div className="mb-4">
           <label htmlFor="text" className="block font-medium text-gray-500">
             Enter Text or Drop a File
@@ -46,7 +61,11 @@ export default function FileSelectorRadio(props) {
             type={props.type}
             className="mt-1 text-black block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             value={props.text}
-            onChange={(event) => props.setText(event.target.value)}
+            onDrop={onDrop}
+            onChange={(event) => {
+              props.setText(event.target.value);
+              props.setType(selectedOption);
+            }}
           ></textarea>
         </div>
       )}

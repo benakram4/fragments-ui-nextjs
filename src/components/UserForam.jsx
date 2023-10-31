@@ -16,6 +16,7 @@ function UserForm(props) {
       const formData = new FormData(event.target);
       const user = await getAuthHeaders();
       const resBody = formData.get("text");
+      console.log(type);
       const response = await fetch(`${apiUrl}/v1/fragments`, {
         method: "POST",
         headers: {
@@ -24,7 +25,8 @@ function UserForm(props) {
         },
         body: resBody,
       });
-
+      // reset the file type after each submit
+      setType("");
       if (response.ok) {
         console.log("fragment posted successfully");
         // clear the form
@@ -42,6 +44,7 @@ function UserForm(props) {
   const handleDrop = (event) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
+    console.log(file);
     let fileType = file.type;
     const fileExtension = file.name.split(".").pop().toLowerCase();
 
@@ -74,7 +77,12 @@ function UserForm(props) {
       onDrop={handleDrop}
       className="p-4 border-2 border-gray-300 rounded-lg"
     >
-      <FileSelectorRadio type={type} text={text} setText={setText} />
+      <FileSelectorRadio
+        type={type}
+        setType={setType}
+        text={text}
+        setText={setText}
+      />
       <button
         type="submit"
         className="px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

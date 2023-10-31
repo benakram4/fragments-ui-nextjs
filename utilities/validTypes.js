@@ -4,8 +4,8 @@
 const validTypes = new Map([
   ['text/plain', true],
   [`text/markdown`, true],
-  [`text/html`, false],
-  [`application/json`, false],
+  [`text/html`, true],
+  [`application/json`, true],
   [`image/png`, false],
   [`image/jpeg`, false],
   [`image/webp`, false],
