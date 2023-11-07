@@ -5,9 +5,8 @@ const RadioValidTypes = [...validTypes]
   .filter(([key, value]) => value === true)
   .map(([key, value]) => key);
 
-export default function FileSelectorRadio(props) {
+export default function FileSelectorRadio({type, text, setText, setType, ...props}) {
   const [selectedOption, setSelectedOption] = useState("");
-
   const onDrop = (event) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];

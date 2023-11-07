@@ -16,7 +16,6 @@ function UserForm(props) {
       const formData = new FormData(event.target);
       const user = await getAuthHeaders();
       const resBody = formData.get("text");
-      console.log(type);
       const response = await fetch(`${apiUrl}/v1/fragments`, {
         method: "POST",
         headers: {
@@ -44,7 +43,6 @@ function UserForm(props) {
   const handleDrop = (event) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
-    console.log(file);
     let fileType = file.type;
     const fileExtension = file.name.split(".").pop().toLowerCase();
 
@@ -56,8 +54,6 @@ function UserForm(props) {
     }
 
     setType(fileType);
-    console.log(file);
-    console.log(fileType);
 
     // Check if the MIME type is valid
     if (validTypes.has(fileType)) {
