@@ -1,0 +1,10 @@
+.github/
+.vscode/
+node_modules/
+.env*
+.eslintrc.js
+.prettier*
+.git/
+.gitignore
+.prettier*
+Dockerfile
