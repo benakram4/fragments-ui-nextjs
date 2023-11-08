@@ -8,8 +8,8 @@ import { getUserFragments } from "../../utilities/api";
 import { useState } from "react";
 
 // import components
-import LoginButton from "../components/LogInButton";
-import LogoutButton from "../components/LogoutButton";
+import LoginButton from "@/components/LogInButton";
+import LogoutButton from "@/components/LogoutButton";
 import UserForm from "@/components/UserForam";
 
 Amplify.configure({
@@ -45,7 +45,7 @@ function userIsAuth() {
       isAuth = true;
     })
     .catch((err) => {
-      console.log(err);
+      //console.log(err);
       isAuth = false;
     });
   return isAuth;
@@ -63,9 +63,9 @@ export default function Home({ hostUrl }) {
     // sign out the user
     Auth.signOut()
       .then(() => {
-        console.log("user signed out");
+        //console.log("user signed out");
       })
-      .catch((err) => console.log(err));
+      //.catch((err) => console.log(err));
 
     // clear the local storage
     localStorage.clear();
