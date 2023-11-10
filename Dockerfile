@@ -23,7 +23,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
     && apt-get update && apt-get install -y --no-install-recommends\
         build-essential \
-        nodejs= \
+        nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/share/nginx/html
