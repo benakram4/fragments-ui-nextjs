@@ -1,5 +1,6 @@
 node_moduels/
 .gitignore
 .git/
+.github/
 .next/
 .vscode/
