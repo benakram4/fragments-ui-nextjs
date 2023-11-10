@@ -13,9 +13,6 @@ import LogoutButton from "@/components/LogoutButton";
 import UserForm from "@/components/UserForm";
 import FragmentsAccordion from "@/components/FragmentsAccordion";
 
-// globals
-const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-
 Amplify.configure({
   Auth: {
     // Amazon Region. We can hard-code this (we always use the us-east-1 region)
