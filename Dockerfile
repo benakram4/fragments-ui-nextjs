@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm ci --omit=dev
+RUN npm ci
 
 COPY . .
 
@@ -20,17 +20,13 @@ FROM nginx:1.25.3@sha256:86e53c4c16a6a276b204b0fd3a8143d86547c967dc8258b3d47c3a2
 
 # setup nodejs
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
-    && apt-get update && apt-get install -y --no-install-recommends\
-        build-essential \
-        nodejs \
+RUN apt-get update && apt-get install -y --no-install-recommends\
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/share/nginx/html
 
 # copy the build files from the previous stage
 COPY --from=build /app/out .
-
 
 EXPOSE 80
 
