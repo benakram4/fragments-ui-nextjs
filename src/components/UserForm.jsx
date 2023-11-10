@@ -6,7 +6,7 @@ import FileSelectorRadio from "@/components/FileSelectorRadio";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
-function UserForm(props) {
+function UserForm({ setFragUploadedCounter, fragUploadedCounter }) {
   const [text, setText] = useState("");
   const [type, setType] = useState("");
 
@@ -32,6 +32,7 @@ function UserForm(props) {
         setText("");
         // call the API to get the latest fragments
         await getUserFragments();
+        setFragUploadedCounter(fragUploadedCounter + 1);
       } else {
         console.error("Error posting buffer:", response.statusText);
       }
@@ -68,24 +69,38 @@ function UserForm(props) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      onDrop={handleDrop}
-      className="p-4 border-2 border-gray-300 rounded-lg"
-    >
-      <FileSelectorRadio
-        type={type}
-        setType={setType}
-        text={text}
-        setText={setText}
-      />
-      <button
-        type="submit"
-        className="px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+    <div>
+      <h1 className="m-5 text-xl font-medium">Upload a Fragment</h1>
+      <form
+        onSubmit={handleSubmit}
+        onDrop={handleDrop}
+        className="p-4 border-2 border-gray-300 rounded-lg"
       >
-        Post
-      </button>
-    </form>
+        <FileSelectorRadio
+          type={type}
+          setType={setType}
+          text={text}
+          setText={setText}
+        />
+        <button
+          type="submit"
+          disabled={!text || text.trim() === ""}
+          className="px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Post
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setText("");
+          }}
+          className="px-4 py-2 mx-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+        >
+          Reset
+        </button>
+
+      </form>
+    </div>
   );
 }
 

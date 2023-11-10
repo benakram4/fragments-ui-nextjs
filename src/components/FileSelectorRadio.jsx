@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import validTypes from "../../utilities/validTypes";
 
 const RadioValidTypes = [...validTypes]
@@ -10,7 +10,7 @@ export default function FileSelectorRadio(props) {
   const onDrop = (event) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
-    console.log(file);
+    // console.log(file);
     let fileType = file.type;
     const fileExtension = file.name.split(".").pop().toLowerCase();
 
@@ -22,8 +22,8 @@ export default function FileSelectorRadio(props) {
     }
 
     setSelectedOption(fileType);
-    console.log(file);
-    console.log(fileType);
+    // console.log(file);
+    // console.log(fileType);
   };
 
   return (
@@ -32,7 +32,7 @@ export default function FileSelectorRadio(props) {
         htmlFor="fileTypes"
         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
       >
-        Select an option
+        Select Fragment Type to Upload
       </label>
       <select
         id="fileTypes"

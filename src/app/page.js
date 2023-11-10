@@ -10,7 +10,11 @@ import { useState } from "react";
 // import components
 import LoginButton from "@/components/LogInButton";
 import LogoutButton from "@/components/LogoutButton";
-import UserForm from "@/components/UserForam";
+import UserForm from "@/components/UserForm";
+import FragmentsAccordion from "@/components/FragmentsAccordion";
+
+// globals
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
 Amplify.configure({
   Auth: {
@@ -51,8 +55,9 @@ function userIsAuth() {
   return isAuth;
 }
 
-export default function Home({ hostUrl }) {
+export default function Home() {
   const [isLoggingClicked, setIsLoggingClicked] = useState(false);
+  const [fragUploadedCounter, setFragUploadedCounter] = useState(0);
 
   const handleLoginClick = () => {
     // set the state
@@ -61,11 +66,10 @@ export default function Home({ hostUrl }) {
 
   const handleLogoutClick = (AmplifySignOut) => {
     // sign out the user
-    Auth.signOut()
-      .then(() => {
-        //console.log("user signed out");
-      })
-      //.catch((err) => console.log(err));
+    Auth.signOut().then(() => {
+      //console.log("user signed out");
+    });
+    //.catch((err) => console.log(err));
 
     // clear the local storage
     localStorage.clear();
@@ -90,10 +94,10 @@ export default function Home({ hostUrl }) {
                       {user.username}
                     </span>
                   </h1>
-
                   <section>
                     <LogoutButton handleLogoutClick={handleLogoutClick} />
-                    <UserForm hostUrl={hostUrl} />
+                    <UserForm fragUploadedCounter={fragUploadedCounter} setFragUploadedCounter={setFragUploadedCounter}/>
+                    <FragmentsAccordion fragUploadedCounter={fragUploadedCounter} />
                   </section>
                 </section>
               </main>
@@ -101,12 +105,10 @@ export default function Home({ hostUrl }) {
           }}
         </Authenticator>
       ) : (
-        <>
-          <section className="text-center">
-            <h1 className="text-4xl font-medium leading-tight">Fragments UI</h1>
-            <LoginButton handleLoginClick={handleLoginClick} />
-          </section>
-        </>
+        <section className="text-center">
+          <h1 className="text-4xl font-medium leading-tight">Fragments UI</h1>
+          <LoginButton handleLoginClick={handleLoginClick} />
+        </section>
       )}
     </>
   );
