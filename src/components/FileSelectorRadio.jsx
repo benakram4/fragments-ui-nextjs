@@ -10,7 +10,6 @@ export default function FileSelectorRadio(props) {
   const onDrop = (event) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
-    // console.log(file);
     let fileType = file.type;
     const fileExtension = file.name.split(".").pop().toLowerCase();
 
@@ -22,8 +21,6 @@ export default function FileSelectorRadio(props) {
     }
 
     setSelectedOption(fileType);
-    // console.log(file);
-    // console.log(fileType);
   };
 
   return (

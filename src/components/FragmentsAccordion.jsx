@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-
 import { getUserFragmentsMetaData } from "../../utilities/api";
 
 export default function FragmentsAccordion({ fragUploadedCounter }) {
-
 
   // state for the accordion
   const [metaData, setMetaData] = useState(null);
@@ -28,7 +26,6 @@ export default function FragmentsAccordion({ fragUploadedCounter }) {
 
   // if there are no fragments, return a message
   if (metaData.length === 0) {
-    console.log("no fragments", metaData, metaData.length);
     return (
       <div className="py-5">
         <h2 className="py-5 font-medium text-xl">Your Fragments</h2>
