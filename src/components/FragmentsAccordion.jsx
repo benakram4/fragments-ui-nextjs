@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 import { getUserFragmentsMetaData } from "../../utilities/api";
+import DeleteFragmentButton from "./DeleteFragmentButton";
+import DisplayFragmentButton from "./DisplayFragmentButton";
+
 
 export default function FragmentsAccordion({ fragUploadedCounter }) {
 
   // state for the accordion
-  const [metaData, setMetaData] = useState(null);
-  const [openAccordion, setOpenAccordion] = useState(null);
+  const [metaData, setMetaData] = useState(undefined);
+  const [openAccordion, setOpenAccordion] = useState(undefined);
+  const [deleteFragmentId, setDeleteFragmentId] = useState(undefined);
 
   const handleClick = (accordionId) => {
-    setOpenAccordion(openAccordion === accordionId ? null : accordionId);
+    setOpenAccordion(openAccordion === accordionId ? undefined : accordionId);
   };
 
   useEffect(() => {
@@ -18,7 +22,7 @@ export default function FragmentsAccordion({ fragUploadedCounter }) {
     }
 
     fetchMetaData();
-  }, [fragUploadedCounter]);
+  }, [fragUploadedCounter, deleteFragmentId]);
 
   if (!metaData) {
     return <div>Loading...</div>;
@@ -97,6 +101,8 @@ export default function FragmentsAccordion({ fragUploadedCounter }) {
                   <br />
                   Updated: {item.updated}
                 </p>
+                <DisplayFragmentButton fragmentId={item.id} fragmentType={item.type} />
+                <DeleteFragmentButton fragmentId={item.id} setDeleteFragmentId={setDeleteFragmentId} />
               </div>
             </div>
           </div>

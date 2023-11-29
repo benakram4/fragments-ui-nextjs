@@ -14,22 +14,37 @@ function UserForm({ setFragUploadedCounter, fragUploadedCounter }) {
     try {
       event.preventDefault();
       const formData = new FormData(event.target);
+      const file = formData.get("text") || formData.get("image");
       const user = await getAuthHeaders();
-      const resBody = formData.get("text");
+      console.log("file:", file);
+      //log the formdata value:
+      console.log("formData:", ...formData.entries());
+
+      let buffer = null;
+      console.log("file type:", type);
+      if (file instanceof Blob) {
+        const response = await fetch(URL.createObjectURL(file));
+        const arrayBuffer = await response.arrayBuffer();
+        console.log("file type: image: ", type);
+        buffer = Buffer.from(arrayBuffer);
+      } else {
+        buffer = Buffer.from(file);
+      }
+
       const response = await fetch(`${apiUrl}/v1/fragments`, {
         method: "POST",
         headers: {
           "Content-Type": type,
           Authorization: `Bearer ${user.idToken}`,
         },
-        body: resBody,
+        body: buffer,
       });
       // reset the file type after each submit
-      setType("");
+      setType('');
       if (response.ok) {
         console.log("fragment posted successfully");
         // clear the form
-        setText("");
+        setText(undefined);
         // call the API to get the latest fragments
         await getUserFragments();
         setFragUploadedCounter(fragUploadedCounter + 1);
@@ -84,7 +99,7 @@ function UserForm({ setFragUploadedCounter, fragUploadedCounter }) {
         />
         <button
           type="submit"
-          disabled={!text || text.trim() === ""}
+          disabled={!text }
           className="px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
           Post
@@ -98,7 +113,6 @@ function UserForm({ setFragUploadedCounter, fragUploadedCounter }) {
         >
           Reset
         </button>
-
       </form>
     </div>
   );

@@ -86,15 +86,20 @@ export default function Home() {
               <main>
                 <section className="text-center">
                   <h1 className="text-4xl font-medium leading-tight">
-                    Hello
+                    Hello{" "}
                     <span className="inline-block whitespace-nowrap rounded-[0.27rem] bg-primary-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-primary-700">
                       {user.username}
                     </span>
                   </h1>
                   <section>
                     <LogoutButton handleLogoutClick={handleLogoutClick} />
-                    <UserForm fragUploadedCounter={fragUploadedCounter} setFragUploadedCounter={setFragUploadedCounter}/>
-                    <FragmentsAccordion fragUploadedCounter={fragUploadedCounter} />
+                    <UserForm
+                      fragUploadedCounter={fragUploadedCounter}
+                      setFragUploadedCounter={setFragUploadedCounter}
+                    />
+                    <FragmentsAccordion
+                      fragUploadedCounter={fragUploadedCounter}
+                    />
                   </section>
                 </section>
               </main>

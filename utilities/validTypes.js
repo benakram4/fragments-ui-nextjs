@@ -6,10 +6,10 @@ const validTypes = new Map([
   [`text/markdown`, true],
   [`text/html`, true],
   [`application/json`, true],
-  [`image/png`, false],
-  [`image/jpeg`, false],
-  [`image/webp`, false],
-  [`image/gif`, false],
+  [`image/png`, true],
+  [`image/jpeg`, true],
+  [`image/webp`, true],
+  [`image/gif`, true],
 ])
 
 export default validTypes;
