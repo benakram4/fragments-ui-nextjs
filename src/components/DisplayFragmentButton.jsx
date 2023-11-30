@@ -9,8 +9,6 @@ const displayFragment = async (
   setDisplayedFragment,
   setDisplayStatus
 ) => {
-  console.log("Displaying fragment with id: ", fragmentId);
-  console.log("Displaying fragment with type: ", fragmentType);
   try {
     const user = await getAuthHeaders();
     const res = await fetch(`${apiUrl}/v1/fragments/${fragmentId}`, {
@@ -21,15 +19,11 @@ const displayFragment = async (
       throw new Error(`${res.status} ${res.statusText}`);
     }
     if (fragmentType.includes("image")) {
-      console.log("res Display", res.body);
       const blob = await res.blob();
-      console.log("blob", blob);
       const blobUrl = URL.createObjectURL(blob);
-      console.log("blobUrl", blobUrl);
       setDisplayedFragment(blobUrl);
     } else {
       const resText = res.text();
-      console.log("resText", resText);
       setDisplayedFragment(resText);
     }
     setDisplayStatus(true);
@@ -39,7 +33,7 @@ const displayFragment = async (
 };
 
 export default function DisplayFragmentButton({ fragmentId, fragmentType }) {
-  const [displayedFragment, setDisplayedFragment] = useState(undefined);
+  const [displayedFragment, setDisplayedFragment] = useState(null);
   const [displayStatus, setDisplayStatus] = useState(false);
 
   const handleClick = () => {
@@ -52,7 +46,7 @@ export default function DisplayFragmentButton({ fragmentId, fragmentType }) {
       );
     } else {
       setDisplayStatus(false);
-      setDisplayedFragment(undefined);
+      setDisplayedFragment(null);
     }
   };
 

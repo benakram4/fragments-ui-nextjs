@@ -7,18 +7,18 @@ import DisplayFragmentButton from "./DisplayFragmentButton";
 export default function FragmentsAccordion({ fragUploadedCounter }) {
 
   // state for the accordion
-  const [metaData, setMetaData] = useState(undefined);
-  const [openAccordion, setOpenAccordion] = useState(undefined);
-  const [deleteFragmentId, setDeleteFragmentId] = useState(undefined);
+  const [metaData, setMetaData] = useState(null);
+  const [openAccordion, setOpenAccordion] = useState(null);
+  const [deleteFragmentId, setDeleteFragmentId] = useState(null);
 
   const handleClick = (accordionId) => {
-    setOpenAccordion(openAccordion === accordionId ? undefined : accordionId);
+    setOpenAccordion(openAccordion === accordionId ? null : accordionId);
   };
 
   useEffect(() => {
     async function fetchMetaData() {
       const data = await getUserFragmentsMetaData();
-      setMetaData(data.fragments);
+      setMetaData(data?.fragments);
     }
 
     fetchMetaData();

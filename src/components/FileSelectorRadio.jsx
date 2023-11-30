@@ -29,7 +29,6 @@ export default function FileSelectorRadio(props) {
       selectedOption.includes("text") ||
       selectedOption.includes("application/json")
     ) {
-      console.log("selectedOption in text", selectedOption);
       return (
         <div className="mb-4">
           <label htmlFor="text" className="block font-medium text-gray-500">
@@ -63,24 +62,21 @@ export default function FileSelectorRadio(props) {
             id="image"
             type="file"
             accept="image/*"
-            className="mt-1 text-black block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className="mt-1 text-white block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             onChange={async (event) => {
               const file = event.target.files[0];
-              // log the file name
-              console.log("file name", file.name);
               const reader = new FileReader();
               reader.onloadend = function () {
                 const arrayBuffer = reader.result;
-                if (Buffer.isBuffer(arrayBuffer)) {
-                  console.log("arrayBuffer is already buffer!!!!!!!", arrayBuffer);}
-                else {
-                  console.log("arrayBuffer is not !!", arrayBuffer);
-                }
                 const buffer = Buffer.from(arrayBuffer);
                 props.setText(buffer);
                 props.setType(selectedOption);
               };
-              reader.readAsArrayBuffer(file);
+              // only if file is a blob
+              if (file) {
+                reader.readAsArrayBuffer(file);
+              }
+              
             }}
           />
         </div>
