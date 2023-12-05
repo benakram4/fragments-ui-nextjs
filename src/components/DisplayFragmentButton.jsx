@@ -1,7 +1,7 @@
 import { apiUrl } from "../../utilities/api";
 import { getAuthHeaders } from "../../utilities/auth";
-import { useState } from "react";
-import Image from "next/image";
+import { useState, useEffect } from "react";
+import Image from "next/legacy/image";
 
 const displayFragment = async (
   fragmentId,
@@ -32,7 +32,11 @@ const displayFragment = async (
   }
 };
 
-export default function DisplayFragmentButton({ fragmentId, fragmentType }) {
+export default function DisplayFragmentButton({
+  fragmentId,
+  fragmentType,
+  editFragment,
+}) {
   const [displayedFragment, setDisplayedFragment] = useState(null);
   const [displayStatus, setDisplayStatus] = useState(false);
 
@@ -50,16 +54,22 @@ export default function DisplayFragmentButton({ fragmentId, fragmentType }) {
     }
   };
 
+  useEffect(() => {
+    setDisplayStatus(false);
+    setDisplayedFragment(null);
+  }, [editFragment]);
+
   return (
     <>
       <button
-        className="px-3 py-1 text-sm font-medium text-white bg-indigo-500 rounded hover:bg-indigo-600"
+        className="px-3 py-1 text-sm font-medium text-white bg-indigo-500 rounded hover:bg-indigo-600 w-21 h-8"
         onClick={handleClick}
       >
         {displayStatus ? "Minimize" : "Display"}
       </button>
       {displayStatus && displayedFragment && fragmentType.includes("image") ? (
         <Image
+          layout="responsive"
           width={1000}
           height={800}
           src={displayedFragment}

@@ -96,6 +96,7 @@ function UserForm({ setFragUploadedCounter, fragUploadedCounter }) {
           setType={setType}
           text={text}
           setText={setText}
+          disableSelection={false}
         />
         <button
           type="submit"

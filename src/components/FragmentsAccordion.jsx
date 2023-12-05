@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getUserFragmentsMetaData } from "../../utilities/api";
 import DeleteFragmentButton from "./DeleteFragmentButton";
 import DisplayFragmentButton from "./DisplayFragmentButton";
+import EditFragmentButton from "./EditFragmentButton";
 
 
 export default function FragmentsAccordion({ fragUploadedCounter }) {
@@ -10,6 +11,7 @@ export default function FragmentsAccordion({ fragUploadedCounter }) {
   const [metaData, setMetaData] = useState(null);
   const [openAccordion, setOpenAccordion] = useState(null);
   const [deleteFragmentId, setDeleteFragmentId] = useState(null);
+  const [editFragment, setEditFragment] = useState(0);
 
   const handleClick = (accordionId) => {
     setOpenAccordion(openAccordion === accordionId ? null : accordionId);
@@ -22,7 +24,7 @@ export default function FragmentsAccordion({ fragUploadedCounter }) {
     }
 
     fetchMetaData();
-  }, [fragUploadedCounter, deleteFragmentId]);
+  }, [fragUploadedCounter, deleteFragmentId, editFragment]);
 
   if (!metaData) {
     return <div>Loading...</div>;
@@ -101,8 +103,9 @@ export default function FragmentsAccordion({ fragUploadedCounter }) {
                   <br />
                   Updated: {item.updated}
                 </p>
-                <DisplayFragmentButton fragmentId={item.id} fragmentType={item.type} />
-                <DeleteFragmentButton fragmentId={item.id} setDeleteFragmentId={setDeleteFragmentId} />
+                <DisplayFragmentButton fragmentId={item.id} fragmentType={item.type} editFragment={editFragment} />
+                <DeleteFragmentButton fragmentId={item.id} setDeleteFragmentId={setDeleteFragmentId}  />
+                <EditFragmentButton fragmentId={item.id} fragmentType={item.type} editFragment={editFragment} setEditFragment={setEditFragment} />
               </div>
             </div>
           </div>

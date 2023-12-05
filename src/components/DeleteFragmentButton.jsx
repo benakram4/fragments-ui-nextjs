@@ -24,7 +24,7 @@ const deleteFragment = async (fragmentId, setDeleteFragmentId) => {
 export default function DeleteFragmentButton({ fragmentId, setDeleteFragmentId }) {
   return (
     <button
-      className="my-2 px-3 py-1 text-sm font-medium text-white bg-red-500 rounded hover:bg-red-600"
+      className="my-2 px-3 py-1 text-sm font-medium text-white bg-red-500 rounded hover:bg-red-600 w-20 h-8"
       onClick={() => deleteFragment(fragmentId, setDeleteFragmentId)}
     >
       Delete

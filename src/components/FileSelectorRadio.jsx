@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import validTypes from "../../utilities/validTypes";
+import { Elsie_Swash_Caps } from "next/font/google";
 
 const RadioValidTypes = [...validTypes]
   .filter(([key, value]) => value === true)
@@ -12,6 +13,11 @@ export default function FileSelectorRadio(props) {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
     let fileType = file.type;
+    if (fileType !== selectedOption) {
+      alert("The file type does not match the selected type.");
+      event.target.value = ''; // Reset the value of the file input
+      return;
+    }
     const fileExtension = file.name.split(".").pop().toLowerCase();
 
     // If the MIME type is empty, check the file extension
@@ -21,7 +27,11 @@ export default function FileSelectorRadio(props) {
       }
     }
 
-    setSelectedOption(fileType);
+    if (props.disableSelection) {
+      setSelectedOption(props.type);
+    } else {
+      setSelectedOption(fileType);
+    }
   };
 
   function renderOption() {
@@ -65,18 +75,21 @@ export default function FileSelectorRadio(props) {
             className="mt-1 text-white block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             onChange={async (event) => {
               const file = event.target.files[0];
+              if (file.type !== selectedOption) {
+                alert("The file type does not match the selected type.");
+                event.target.value = ""; // Reset the value of the file input
+                return;
+              }
               const reader = new FileReader();
               reader.onloadend = function () {
-                const arrayBuffer = reader.result;
-                const buffer = Buffer.from(arrayBuffer);
-                props.setText(buffer);
+                const dataUrl = reader.result;
+                props.setText(dataUrl);
                 props.setType(selectedOption);
               };
               // only if file is a blob
               if (file) {
-                reader.readAsArrayBuffer(file);
+                reader.readAsDataURL(file);
               }
-              
             }}
           />
         </div>
@@ -86,13 +99,21 @@ export default function FileSelectorRadio(props) {
     }
   }
 
+  useEffect(() => {
+    if (props.disableSelection) {
+      setSelectedOption(props.type);
+    }
+  }, [props.disableSelection, props.type]);
+
   return (
-    <>
+    <div className="my-2">
       <label
         htmlFor="fileTypes"
         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
       >
-        Select Fragment Type to Upload
+        {!props.disableSelection
+          ? "Select Fragment Type to Upload"
+          : "Update Fragment"}
       </label>
       <select
         id="fileTypes"
@@ -100,15 +121,25 @@ export default function FileSelectorRadio(props) {
         value={selectedOption}
         onChange={(e) => setSelectedOption(e.target.value)}
       >
-        <option>Choose a File Type</option>
-        {RadioValidTypes.map((type) => (
-          <option key={type} value={type}>
-            {type}
+        {!props.disableSelection ? (
+          <>
+            <option value="" disabled>
+              Select fragment type
+            </option>
+            {RadioValidTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </>
+        ) : (
+          <option disabled={true} key={props.type} value={props.type}>
+            {props.type}
           </option>
-        ))}
+        )}
       </select>
 
       {renderOption()}
-    </>
+    </div>
   );
 }
