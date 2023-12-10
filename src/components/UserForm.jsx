@@ -16,12 +16,12 @@ function UserForm({ setFragUploadedCounter, fragUploadedCounter }) {
       const formData = new FormData(event.target);
       const file = formData.get("text") || formData.get("image");
       const user = await getAuthHeaders();
-      console.log("file:", file);
+      // console.log("file:", file);
       //log the formdata value:
-      console.log("formData:", ...formData.entries());
+      // console.log("formData:", ...formData.entries());
 
       let buffer = null;
-      console.log("file type:", type);
+      // console.log("file type:", type);
       if (file instanceof Blob) {
         const response = await fetch(URL.createObjectURL(file));
         const arrayBuffer = await response.arrayBuffer();
@@ -44,7 +44,7 @@ function UserForm({ setFragUploadedCounter, fragUploadedCounter }) {
       if (response.ok) {
         console.log("fragment posted successfully");
         // clear the form
-        setText(undefined);
+        setText("");
         // call the API to get the latest fragments
         await getUserFragments();
         setFragUploadedCounter(fragUploadedCounter + 1);

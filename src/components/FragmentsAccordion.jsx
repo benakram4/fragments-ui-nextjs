@@ -3,6 +3,7 @@ import { getUserFragmentsMetaData } from "../../utilities/api";
 import DeleteFragmentButton from "./DeleteFragmentButton";
 import DisplayFragmentButton from "./DisplayFragmentButton";
 import EditFragmentButton from "./EditFragmentButton";
+import ConvertFragmentButton from "./ConvertFragmentButton";
 
 
 export default function FragmentsAccordion({ fragUploadedCounter }) {
@@ -106,6 +107,7 @@ export default function FragmentsAccordion({ fragUploadedCounter }) {
                 <DisplayFragmentButton fragmentId={item.id} fragmentType={item.type} editFragment={editFragment} />
                 <DeleteFragmentButton fragmentId={item.id} setDeleteFragmentId={setDeleteFragmentId}  />
                 <EditFragmentButton fragmentId={item.id} fragmentType={item.type} editFragment={editFragment} setEditFragment={setEditFragment} />
+                <ConvertFragmentButton fragmentId={item.id} fragmentType={item.type} />
               </div>
             </div>
           </div>
